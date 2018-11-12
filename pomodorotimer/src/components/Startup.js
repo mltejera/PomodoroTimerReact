@@ -1,16 +1,62 @@
 
 import React from 'react';
-//import { withRouter } from 'react-router-dom';
-import Stopwatch from './Stopwatch';
+import SingleTimer from './SingleTimer';
+// import TimerList from './TimerList';
+
+import Button from '@material-ui/core/Button';
+import AddAlarmIcon from '@material-ui/icons/AddAlarm'
+import TimerList from './TimerList';
 
 class Startup extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            timerList: []
+        };
+    }
+
+    addAlarm = (seconds) => {
+
+        if (isNaN(seconds)) {
+            seconds = 5;
+        }
+
+        var newTimer = {
+            runningTime: seconds * 1000,
+            originalTime: seconds * 1000,
+            isRunning: false,
+            isComplete: false,
+        }
+
+        this.setState((prevState => {
+            return {
+                timerList: prevState.timerList.concat(newTimer)
+            };
+        }));
+
+        console.log(this.state.timerList)
+    }
+
+
     render() {
+
         return (
             <div className="App">
                 <h1>Stopwatch</h1>
-                <Stopwatch
+
+                <TimerList timerList={this.state.timerList} />
+
+                <SingleTimer
                     isRunning={false}
-                    runningTime={0} />
+                    runningTime={5000} />
+
+                <Button
+                    onClick={this.addAlarm}
+                    variant="fab"
+                    className="button">
+                    <AddAlarmIcon />
+                </Button>
             </div>
         );
     }

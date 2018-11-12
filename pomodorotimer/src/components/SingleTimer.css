@@ -1,0 +1,14 @@
+
+.someId .startStop-Button {
+    margin : 4px;
+  }
+
+.someId .fabProgress {
+    color: green;
+    vertical-align: middle;
+    margin : 4px; 
+}
+
+.someId .wrapper {
+    position: 'relative';
+}
