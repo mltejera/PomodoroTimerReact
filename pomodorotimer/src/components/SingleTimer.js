@@ -60,7 +60,11 @@ class SingleTimer extends React.Component {
 
     resetTimer = () => {
         clearInterval(this.timer);
-        this.setState({ runningTime: this.state.originalTime, isRunning: false });
+        this.setState({
+            runningTime: this.state.originalTime,
+            isRunning: false,
+            isComplete: false
+        });
     };
 
     addMinute = () => {
@@ -71,7 +75,7 @@ class SingleTimer extends React.Component {
 
     subtractMinute = () => {
 
-        if (this.state.runningTime >= 1000) {
+        if (this.state.runningTime > 1000) {
             var newRunningTime = this.state.runningTime - 1000;
             this.setState({ runningTime: newRunningTime });
         }
@@ -92,53 +96,58 @@ class SingleTimer extends React.Component {
         const { isRunning, runningTime } = this.state;
 
         return (
-            <div className="someId">
-                <h1>{this.millisToMinutesAndSeconds(runningTime)}</h1>
-                {this.state.isRunning && <CircularProgress className="fabProgress" />}
-                {this.state.isComplete && <DoneIcon className="fabProgress" />}
-                <Button
-                    onClick={this.startStopTimer}
-                    variant="fab"
-                    color="primary"
-                    className="startStop-Button"
-                    aria-label="StartStop">
-                    {isRunning ?
-                        <PauseIcon />
-                        :
-                        <StartIcon />}
-                </Button>
+            <div className="parent">
+                <div className="placeHolder">
+                    {this.state.isRunning && <CircularProgress className="fabProgress spinnerIcon" />}
+                    {this.state.isComplete && <DoneIcon className="fabProgress checkIcon" />}
+                </div>
+                <div className="someId">
+                    <h1>{this.millisToMinutesAndSeconds(runningTime)}</h1>
 
-                <Button
-                    onClick={this.resetTimer}
-                    variant="fab"
-                    color="secondary"
-                    className="startStop-Button"
-                    aria-label="Reset">
-                    <RefreshIcon />
-                </Button>
+                    <Button
+                        onClick={this.startStopTimer}
+                        variant="fab"
+                        color="primary"
+                        className="startStop-Button"
+                        aria-label="StartStop">
+                        {isRunning ?
+                            <PauseIcon />
+                            :
+                            <StartIcon />}
+                    </Button>
 
-                <Button
-                    onClick={this.addMinute}
-                    variant="fab"
-                    className="startStop-Button"
-                    aria-label="Reset">
-                    <AddIcon />
-                </Button>
+                    <Button
+                        onClick={this.resetTimer}
+                        variant="fab"
+                        color="secondary"
+                        className="startStop-Button"
+                        aria-label="Reset">
+                        <RefreshIcon />
+                    </Button>
 
-                <Button
-                    onClick={this.subtractMinute}
-                    variant="fab"
-                    className="startStop-Button"
-                    aria-label="Reset">
-                    <RemoveIcon />
-                </Button>
-                {/* <Button
+                    <Button
+                        onClick={this.addMinute}
+                        variant="fab"
+                        className="startStop-Button"
+                        aria-label="Reset">
+                        <AddIcon />
+                    </Button>
+
+                    <Button
+                        onClick={this.subtractMinute}
+                        variant="fab"
+                        className="startStop-Button"
+                        aria-label="Reset">
+                        <RemoveIcon />
+                    </Button>
+                    {/* <Button
                     onClick={this.resetTimer}
                     variant="fab"
                     className="startStop-Button"
                     aria-label="Reset">
                     <DeleteIcon />
                 </Button> */}
+                </div>
             </div>
         );
     }

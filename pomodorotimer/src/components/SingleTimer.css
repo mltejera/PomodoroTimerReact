@@ -1,4 +1,13 @@
 
+.parent {
+    display : flex;
+    justify-content: center;
+}
+
+.placeHolder {
+    align-self: flex-end;
+}
+
 .someId .startStop-Button {
     margin : 4px;
   }
@@ -6,7 +15,15 @@
 .someId .fabProgress {
     color: green;
     vertical-align: middle;
-    margin : 4px; 
+    margin : 0px; 
+}
+
+.spinnerIcon {
+    margin-bottom : 12px; 
+}
+
+.checkIcon {
+    margin-bottom : 20px;
 }
 
 .someId .wrapper {

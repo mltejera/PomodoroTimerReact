@@ -1,11 +1,12 @@
 
 import React from 'react';
-import SingleTimer from './SingleTimer';
-// import TimerList from './TimerList';
+import TimerList from './TimerList';
 
 import Button from '@material-ui/core/Button';
 import AddAlarmIcon from '@material-ui/icons/AddAlarm'
-import TimerList from './TimerList';
+
+
+import './Startup.css'
 
 class Startup extends React.Component {
     constructor(props) {
@@ -16,7 +17,15 @@ class Startup extends React.Component {
         };
     }
 
-    addAlarm = (seconds) => {
+    componentDidMount() {
+        this.addLongTimer(5);
+        this.addShortTimer(2);
+
+        this.addLongTimer(5);
+        this.addShortTimer(2);
+    }
+
+    addTimer = (seconds) => {
 
         if (isNaN(seconds)) {
             seconds = 5;
@@ -34,8 +43,14 @@ class Startup extends React.Component {
                 timerList: prevState.timerList.concat(newTimer)
             };
         }));
+    }
 
-        console.log(this.state.timerList)
+    addShortTimer = () => {
+        this.addTimer(3);
+    }
+
+    addLongTimer = () => {
+        this.addTimer(5);
     }
 
 
@@ -43,19 +58,24 @@ class Startup extends React.Component {
 
         return (
             <div className="App">
-                <h1>Stopwatch</h1>
+                <h1>Pomodoro Timer</h1>
 
                 <TimerList timerList={this.state.timerList} />
 
-                <SingleTimer
-                    isRunning={false}
-                    runningTime={5000} />
+                <Button
+                    onClick={this.addLongTimer}
+                    variant="extendedFab"
+                    className="button addTimer">
+                    <AddAlarmIcon />
+                    Long timer
+                </Button>
 
                 <Button
-                    onClick={this.addAlarm}
-                    variant="fab"
-                    className="button">
+                    onClick={this.addShortTimer}
+                    variant="extendedFab"
+                    className="button addTimer">
                     <AddAlarmIcon />
+                    Short timer
                 </Button>
             </div>
         );
