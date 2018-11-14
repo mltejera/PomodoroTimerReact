@@ -1,22 +1,20 @@
-import React from 'react';
+import React from 'react'
 
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import StartIcon from '@material-ui/icons/PlayArrow';
-import PauseIcon from '@material-ui/icons/Pause';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DoneIcon from '@material-ui/icons/Done';
+import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import StartIcon from '@material-ui/icons/PlayArrow'
+import PauseIcon from '@material-ui/icons/Pause'
+import RefreshIcon from '@material-ui/icons/Refresh'
+import AddIcon from '@material-ui/icons/Add'
+import RemoveIcon from '@material-ui/icons/Remove'
+import DoneIcon from '@material-ui/icons/Done'
 
+import Styles from './SingleTimer.css'
+import { MillisToMinutesAndSeconds } from '../helpers/timerHelper.js'
 
-import './SingleTimer.css'
+const ONE_SECOND = 1000
 
-const ONE_SECOND = 1000;
-
-
-class SingleTimer extends React.Component {
+export default class SingleTimer extends React.Component {
     state = {
         isRunning: false,
         runningTime: this.props.runningTime,
@@ -24,91 +22,91 @@ class SingleTimer extends React.Component {
         originalTime: this.props.runningTime
     }
 
-    startStopTimer = () => {
+    startStopTimerOnClick = (e) => {
+        e.stopPropagation()
+
         this.setState(state => {
             if (this.state.isRunning) {
-                clearInterval(this.timer);
+                clearInterval(this.timer)
             } else {
-                this.timer = setInterval(this.timerTick, ONE_SECOND);
-                this.setState({ isComplete: false });
+                this.timer = setInterval(this.timerTick, ONE_SECOND)
+                this.setState({ isComplete: false })
             }
-            return { isRunning: !this.state.isRunning };
-        });
-    };
+            return { isRunning: !this.state.isRunning }
+        })
+    }
 
     timerTick = () => {
-        console.log('tick');
 
         if (this.state.runningTime >= ONE_SECOND) {
-            var newTime = this.state.runningTime - ONE_SECOND;
+            let newTime = this.state.runningTime - ONE_SECOND
 
             this.setState({ runningTime: newTime })
         } else {
-            this.completeTimer();
+            this.completeTimer()
         }
     }
 
     completeTimer = () => {
+
         this.setState({
             isRunning: false,
             runningTime: 0,
             isComplete: true
         })
 
-        clearInterval(this.timer);
+        clearInterval(this.timer)
     }
 
-    resetTimer = () => {
-        clearInterval(this.timer);
+    resetTimerOnClick = (e) => {
+        e.stopPropagation()
+
+        clearInterval(this.timer)
         this.setState({
             runningTime: this.state.originalTime,
             isRunning: false,
             isComplete: false
-        });
-    };
+        })
+    }
 
-    addMinute = () => {
-        var newRunningTime = this.state.runningTime + 1000;
+    addMinuteOnClick = (e) => {
+        e.stopPropagation()
+
+        let newRunningTime = this.state.runningTime + ONE_SECOND
 
         this.setState({ runningTime: newRunningTime })
     }
 
-    subtractMinute = () => {
+    subtractMinuteOnClick = (e) => {
+        e.stopPropagation()
 
-        if (this.state.runningTime > 1000) {
-            var newRunningTime = this.state.runningTime - 1000;
-            this.setState({ runningTime: newRunningTime });
+        if (this.state.runningTime > 0) {
+            let newRunningTime = this.state.runningTime - ONE_SECOND
+            this.setState({ runningTime: newRunningTime })
         }
     }
 
-    millisToMinutesAndSeconds = (millis) => {
-        var minutes = Math.floor(millis / 60000);
-        var seconds = ((millis % 60000) / 1000).toFixed(0);
-        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-    }
-
     componentWillUnmount() {
-        clearInterval(this.timer);
+        clearInterval(this.timer)
     }
 
     render() {
-
-        const { isRunning, runningTime } = this.state;
+        const { isRunning, runningTime } = this.state
 
         return (
-            <div className="parent">
-                <div className="placeHolder">
-                    {this.state.isRunning && <CircularProgress className="fabProgress spinnerIcon" />}
-                    {this.state.isComplete && <DoneIcon className="fabProgress checkIcon" />}
+            <div>
+                <div className={Styles.placeHolder}>
+                    {this.state.isRunning && <CircularProgress className={Styles.progressSpinner} />}
+                    {this.state.isComplete && <DoneIcon className={Styles.doneIcon} />}
                 </div>
-                <div className="someId">
-                    <h1>{this.millisToMinutesAndSeconds(runningTime)}</h1>
+                <div>
+                    <h1>{MillisToMinutesAndSeconds(runningTime)}</h1>
 
                     <Button
-                        onClick={this.startStopTimer}
+                        onClick={this.startStopTimerOnClick}
                         variant="fab"
                         color="primary"
-                        className="startStop-Button"
+                        className={Styles.startStopButton}
                         aria-label="StartStop">
                         {isRunning ?
                             <PauseIcon />
@@ -117,40 +115,31 @@ class SingleTimer extends React.Component {
                     </Button>
 
                     <Button
-                        onClick={this.resetTimer}
+                        onClick={this.resetTimerOnClick}
                         variant="fab"
                         color="secondary"
-                        className="startStop-Button"
+                        className={Styles.startStopButton}
                         aria-label="Reset">
                         <RefreshIcon />
                     </Button>
 
                     <Button
-                        onClick={this.addMinute}
+                        onClick={this.addMinuteOnClick}
                         variant="fab"
-                        className="startStop-Button"
+                        className={Styles.startStopButton}
                         aria-label="Reset">
                         <AddIcon />
                     </Button>
 
                     <Button
-                        onClick={this.subtractMinute}
+                        onClick={this.subtractMinuteOnClick}
                         variant="fab"
-                        className="startStop-Button"
+                        className={Styles.startStopButton}
                         aria-label="Reset">
                         <RemoveIcon />
                     </Button>
-                    {/* <Button
-                    onClick={this.resetTimer}
-                    variant="fab"
-                    className="startStop-Button"
-                    aria-label="Reset">
-                    <DeleteIcon />
-                </Button> */}
                 </div>
-            </div>
-        );
+            </div >
+        )
     }
 }
-
-export default SingleTimer;

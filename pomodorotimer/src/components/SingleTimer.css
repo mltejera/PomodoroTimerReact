@@ -1,31 +1,17 @@
-
-.parent {
-    display : flex;
-    justify-content: center;
-}
-
-.placeHolder {
-    align-self: flex-end;
-}
-
-.someId .startStop-Button {
+.startStopButton {
     margin : 4px;
   }
 
-.someId .fabProgress {
+.progressSpinner {
     color: green;
     vertical-align: middle;
-    margin : 0px; 
+    margin : 0px;
+    margin-bottom: 12px;
 }
 
-.spinnerIcon {
-    margin-bottom : 12px; 
-}
-
-.checkIcon {
-    margin-bottom : 20px;
-}
-
-.someId .wrapper {
-    position: 'relative';
+.doneIcon {
+    color: green;
+    vertical-align: middle;
+    margin : 0px;
+    margin-bottom: 20px;
 }
