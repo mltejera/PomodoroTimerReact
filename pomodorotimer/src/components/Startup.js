@@ -5,7 +5,7 @@ import SingleTimer from './SingleTimer'
 import Button from '@material-ui/core/Button'
 import AddAlarmIcon from '@material-ui/icons/AddAlarm'
 
-import './Startup.css'
+import Styles from './Startup.css'
 
 const LONG_TIME = 5
 const SHORT_TIME = 2
@@ -83,7 +83,7 @@ export default class Startup extends React.Component {
                 <Button
                     onClick={this.addLongTimerOnClick}
                     variant="extendedFab"
-                    className="addTimer">
+                    className={Styles.addTimer}>
                     <AddAlarmIcon />
                     Long timer
                 </Button>
@@ -91,7 +91,7 @@ export default class Startup extends React.Component {
                 <Button
                     onClick={this.addShortTimerOnClick}
                     variant="extendedFab"
-                    className="addTimer">
+                    className={Styles.addTimer}>
                     <AddAlarmIcon />
                     Short timer
                 </Button>
