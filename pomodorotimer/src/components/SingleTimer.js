@@ -27,35 +27,36 @@ export default class SingleTimer extends React.Component {
 
         this.setState(state => {
             if (this.state.isRunning) {
-                clearInterval(this.timer)
+                this.setState({
+                    isRunning: false
+                })
             } else {
-                this.timer = setInterval(this.timerTick, ONE_SECOND)
-                this.setState({ isComplete: false })
+                setTimeout(this.timerTick, ONE_SECOND)
+                this.setState({ isRunning: true })
             }
-            return { isRunning: !this.state.isRunning }
         })
     }
 
     timerTick = () => {
 
-        if (this.state.runningTime >= ONE_SECOND) {
-            let newTime = this.state.runningTime - ONE_SECOND
+        if (this.state.runningTime >= ONE_SECOND && this.state.isRunning) {
+            const newTime = this.state.runningTime - ONE_SECOND
 
             this.setState({ runningTime: newTime })
-        } else {
+
+            // set another timerTick
+            window.setTimeout(this.timerTick, ONE_SECOND);
+        } else if (this.state.runningTime < ONE_SECOND) {
             this.completeTimer()
         }
     }
 
     completeTimer = () => {
-
         this.setState({
             isRunning: false,
             runningTime: 0,
             isComplete: true
         })
-
-        clearInterval(this.timer)
     }
 
     resetTimerOnClick = (e) => {
@@ -104,6 +105,7 @@ export default class SingleTimer extends React.Component {
 
                     <Button
                         onClick={this.startStopTimerOnClick}
+                        disabled={this.state.isComplete}
                         variant="fab"
                         color="primary"
                         className={Styles.startStopButton}
