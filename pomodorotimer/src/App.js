@@ -1,16 +1,11 @@
-import React, { Component } from 'react'
-import './App.css';
+import React, { PureComponent } from 'react'
 
-import Startup from './components/Startup.js'
+import TimerList from './components/TimerList'
 
-class App extends Component {
+export default class App extends PureComponent {
     render() {
         return (
-            <div>
-                <Startup />
-            </div>
+            <TimerList />
         );
     }
 }
-
-export default App;

@@ -1,16 +1,18 @@
 
 import React from 'react'
-import SingleTimer from './SingleTimer'
 
 import Button from '@material-ui/core/Button'
 import AddAlarmIcon from '@material-ui/icons/AddAlarm'
 
-import Styles from './Startup.css'
+import SingleTimer from './SingleTimer'
+import timerHelper from '../helpers/timerHelper'
+
+import Styles from './TimerList'
 
 const LONG_TIME = 5
 const SHORT_TIME = 2
 
-export default class Startup extends React.Component {
+export default class TimerList extends React.Component {
     constructor() {
         super()
         this.state = {
@@ -26,15 +28,11 @@ export default class Startup extends React.Component {
         this.addTimer(SHORT_TIME)
     }
 
-    addTimer = (seconds) => {
+    addTimer = (seconds = LONG_TIME) => {
 
-        if (isNaN(seconds)) {
-            seconds = LONG_TIME
-        }
-
-        let newTimer = {
-            runningTime: seconds * 1000,
-            originalTime: seconds * 1000,
+        const newTimer = {
+            runningTime: seconds * timerHelper.MILISECONDS_IN_A_SECOND,
+            originalTime: seconds * timerHelper.MILISECONDS_IN_A_SECOND,
             isRunning: false,
             isComplete: false,
         }
@@ -46,42 +44,42 @@ export default class Startup extends React.Component {
         }))
     }
 
-    addShortTimerOnClick = (e) => {
+    onAddShortTimerClick = (e) => {
         e.stopPropagation()
 
         this.addTimer(SHORT_TIME)
     }
 
-    addLongTimerOnClick = (e) => {
+    onAddLongTimerClick = (e) => {
         e.stopPropagation()
 
         this.addTimer(LONG_TIME)
     }
 
-    timerList = () => {
-        let singleTimerArray = []
+    renderTimerList = (timerList) => {
 
-        if (this.state.timerList) {
-            singleTimerArray = this.state.timerList.map((timer, index) =>
-                <SingleTimer
-                    key={index}
-                    isRunning={timer.isRunning}
-                    runningTime={timer.runningTime} />
-            )
+        if (!timerList) {
+            // empty timer list, eject! eject!
+            return
         }
 
-        return singleTimerArray
+        return timerList.map((timer, index) =>
+            <SingleTimer
+                key={index}
+                isRunning={timer.isRunning}
+                runningTime={timer.runningTime} />
+        )
     }
 
     render() {
         return (
-            <div className="App">
+            <div>
                 <h1>Pomodoro Timer</h1>
 
-                <this.timerList />
+                {this.renderTimerList(this.state.timerList)}
 
                 <Button
-                    onClick={this.addLongTimerOnClick}
+                    onClick={this.onAddLongTimerClick}
                     variant="extendedFab"
                     className={Styles.addTimer}>
                     <AddAlarmIcon />
@@ -89,7 +87,7 @@ export default class Startup extends React.Component {
                 </Button>
 
                 <Button
-                    onClick={this.addShortTimerOnClick}
+                    onClick={this.onAddShortTimerClick}
                     variant="extendedFab"
                     className={Styles.addTimer}>
                     <AddAlarmIcon />
