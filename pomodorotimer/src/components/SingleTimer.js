@@ -43,7 +43,7 @@ export default class SingleTimer extends React.Component {
         })
     }
 
-    startStopTimerOnClick = (e) => {
+    onStartStopTimerClick = (e) => {
         e.stopPropagation()
 
         this.setState(state => {
@@ -68,7 +68,7 @@ export default class SingleTimer extends React.Component {
         })
     }
 
-    addMinuteOnClick = (e) => {
+    onAddMinuteClick = (e) => {
         e.stopPropagation()
 
         let newRunningTime = this.state.runningTime + timerHelper.MILISECONDS_IN_A_SECOND
@@ -114,7 +114,7 @@ export default class SingleTimer extends React.Component {
                 <h1>{timerHelper.millisToMinutesAndSeconds(this.state.runningTime)}</h1>
 
                 <Button
-                    onClick={this.startStopTimerOnClick}
+                    onClick={this.onStartStopTimerClick}
                     disabled={this.state.isComplete}
                     variant="fab"
                     color="primary"
@@ -132,7 +132,7 @@ export default class SingleTimer extends React.Component {
                     <RefreshIcon />
                 </Button>
 
-                {this.ControlButton(this.addMinuteOnClick, <AddIcon />, 'Add second')}
+                {this.ControlButton(this.onAddMinuteClick, <AddIcon />, 'Add second')}
 
                 {this.ControlButton(this.onSubtractMinuteClick, <RemoveIcon />, 'Remove second')}
             </div >
