@@ -85,26 +85,10 @@ export default class SingleTimer extends React.Component {
         this.setState({ runningTime: newRunningTime })
     }
 
-    pauseStartIcon = () => {
-        if (this.state.isRunning) {
-            return <PauseIcon />
-        }
-
-        return <StartIcon />
-    }
-
-    statusIcon = () => {
-        if (this.state.isRunning) {
-            return <CircularProgress className={Styles.progressSpinner} />
-        } else if (this.state.isComplete) {
-            return <DoneIcon className={Styles.doneIcon} />
-        }
-    }
-
     render() {
         return (
             <div>
-                {this.statusIcon()}
+                {statusIcon(this.state.isRunning, this.state.isComplete)}
 
                 <h1>{secondsToMinutesAndSeconds(this.state.runningTime)}</h1>
 
@@ -115,7 +99,7 @@ export default class SingleTimer extends React.Component {
                     color="primary"
                     className={Styles.startStopButton}
                     aria-label="StartStop">
-                    {this.pauseStartIcon()}
+                    {pauseStartIcon()}
                 </Button>
 
                 <Button
@@ -139,4 +123,22 @@ export default class SingleTimer extends React.Component {
             </div >
         )
     }
+}
+
+function statusIcon(isRunning, isComplete) {
+    if (isRunning) {
+        return <CircularProgress className={Styles.progressSpinner} />
+    } else if (isComplete) {
+        return <DoneIcon className={Styles.doneIcon} />
+    }
+
+    // I hate that we don't have to have a return statement here in javascript.
+}
+
+function pauseStartIcon(isRunning) {
+    if (isRunning) {
+        return <PauseIcon />
+    }
+
+    return <StartIcon />
 }
