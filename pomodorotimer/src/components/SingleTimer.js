@@ -59,6 +59,7 @@ export default class SingleTimer extends React.Component {
         } else {
             this.setState({ isRunning: true })
 
+            // start the timer
             window.setTimeout(this.onTimerTick, MILISECONDS_IN_A_SECOND)
         }
     }
@@ -99,7 +100,7 @@ export default class SingleTimer extends React.Component {
                     color="primary"
                     className={Styles.startStopButton}
                     aria-label="StartStop">
-                    {pauseStartIcon()}
+                    {pauseStartIcon(this.state.isRunning)}
                 </Button>
 
                 <Button
