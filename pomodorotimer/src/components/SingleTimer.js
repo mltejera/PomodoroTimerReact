@@ -5,13 +5,16 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import StartIcon from '@material-ui/icons/PlayArrow'
 import PauseIcon from '@material-ui/icons/Pause'
 import RefreshIcon from '@material-ui/icons/Refresh'
-import AddIcon from '@material-ui/icons/Add'
-import RemoveIcon from '@material-ui/icons/Remove'
 import DoneIcon from '@material-ui/icons/Done'
 
-import timerHelper from '../helpers/timerHelper'
+import ChangeTimeButton from './ChangeTimeButton'
+
+import { MILISECONDS_IN_A_SECOND, secondsToMinutesAndSeconds } from '../helpers/timerHelper'
 
 import Styles from './SingleTimer'
+
+const ONE = 1
+const NEGATIVE_ONE = -1
 
 export default class SingleTimer extends React.Component {
     state = {
@@ -21,16 +24,21 @@ export default class SingleTimer extends React.Component {
         originalTime: this.props.runningTime
     }
 
-    timerTick = () => {
+    onTimerTick = () => {
 
-        if (this.state.runningTime >= timerHelper.MILISECONDS_IN_A_SECOND && this.state.isRunning) {
-            const newTime = this.state.runningTime - timerHelper.MILISECONDS_IN_A_SECOND
+        if (!this.state.isRunning) {
+            return
+        }
+
+        if (this.state.runningTime > 0) {
+            const newTime = this.state.runningTime - ONE
 
             this.setState({ runningTime: newTime })
 
-            // set another timerTick
-            window.setTimeout(this.timerTick, timerHelper.MILISECONDS_IN_A_SECOND);
-        } else if (this.state.runningTime < timerHelper.MILISECONDS_IN_A_SECOND) {
+            // set up another timerTick
+            window.setTimeout(this.onTimerTick, MILISECONDS_IN_A_SECOND)
+
+        } else {
             this.completeTimer()
         }
     }
@@ -46,16 +54,13 @@ export default class SingleTimer extends React.Component {
     onStartStopTimerClick = (e) => {
         e.stopPropagation()
 
-        this.setState(state => {
-            if (this.state.isRunning) {
-                this.setState({
-                    isRunning: false
-                })
-            } else {
-                setTimeout(this.timerTick, timerHelper.MILISECONDS_IN_A_SECOND)
-                this.setState({ isRunning: true })
-            }
-        })
+        if (this.state.isRunning) {
+            this.setState({ isRunning: false })
+        } else {
+            this.setState({ isRunning: true })
+
+            window.setTimeout(this.onTimerTick, MILISECONDS_IN_A_SECOND)
+        }
     }
 
     resetTimerOnClick = (e) => {
@@ -68,36 +73,19 @@ export default class SingleTimer extends React.Component {
         })
     }
 
-    onAddMinuteClick = (e) => {
-        e.stopPropagation()
+    onAddSecondClick = (changeAmountInSeconds) => {
 
-        let newRunningTime = this.state.runningTime + timerHelper.MILISECONDS_IN_A_SECOND
+        // don't let it go negative
+        if (changeAmountInSeconds < 0 && this.state.runningTime <= 0) {
+            return
+        }
+
+        const newRunningTime = this.state.runningTime + changeAmountInSeconds
 
         this.setState({ runningTime: newRunningTime })
     }
 
-    onSubtractMinuteClick = (e) => {
-        e.stopPropagation()
-
-        if (this.state.runningTime > 0) {
-            let newRunningTime = this.state.runningTime - timerHelper.MILISECONDS_IN_A_SECOND
-            this.setState({ runningTime: newRunningTime })
-        }
-    }
-
-    ControlButton = (onClick, icon, ariaLabel) => {
-        return (
-            <Button
-                onClick={onClick}
-                variant="fab"
-                className={Styles.startStopButton}
-                aria-label={ariaLabel} >
-                {icon}
-            </Button >
-        )
-    }
-
-    PauseStartIcon = () => {
+    pauseStartIcon = () => {
         if (this.state.isRunning) {
             return <PauseIcon />
         }
@@ -105,13 +93,20 @@ export default class SingleTimer extends React.Component {
         return <StartIcon />
     }
 
+    statusIcon = () => {
+        if (this.state.isRunning) {
+            return <CircularProgress className={Styles.progressSpinner} />
+        } else if (this.state.isComplete) {
+            return <DoneIcon className={Styles.doneIcon} />
+        }
+    }
+
     render() {
         return (
             <div>
-                {this.state.isRunning && <CircularProgress className={Styles.progressSpinner} />}
-                {this.state.isComplete && <DoneIcon className={Styles.doneIcon} />}
+                {this.statusIcon()}
 
-                <h1>{timerHelper.millisToMinutesAndSeconds(this.state.runningTime)}</h1>
+                <h1>{secondsToMinutesAndSeconds(this.state.runningTime)}</h1>
 
                 <Button
                     onClick={this.onStartStopTimerClick}
@@ -120,7 +115,7 @@ export default class SingleTimer extends React.Component {
                     color="primary"
                     className={Styles.startStopButton}
                     aria-label="StartStop">
-                    <this.PauseStartIcon />
+                    {this.pauseStartIcon()}
                 </Button>
 
                 <Button
@@ -132,9 +127,15 @@ export default class SingleTimer extends React.Component {
                     <RefreshIcon />
                 </Button>
 
-                {this.ControlButton(this.onAddMinuteClick, <AddIcon />, 'Add second')}
+                <ChangeTimeButton
+                    onChangeTimeClick={this.onAddSecondClick}
+                    changeAmount={ONE}
+                    ariaLabel="Add Second" />
 
-                {this.ControlButton(this.onSubtractMinuteClick, <RemoveIcon />, 'Remove second')}
+                <ChangeTimeButton
+                    onChangeTimeClick={this.onAddSecondClick}
+                    changeAmount={NEGATIVE_ONE}
+                    ariaLabel="Remove Second" />
             </div >
         )
     }

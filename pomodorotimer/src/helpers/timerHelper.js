@@ -1,19 +1,15 @@
-const MILISECONDS_IN_A_MINUTE = 60000
-const MILISECONDS_IN_A_SECOND = 1000
+export const SECONDS_IN_A_MINUTE = 60
+export const MILISECONDS_IN_A_SECOND = 1000
 
-function millisToMinutesAndSeconds(millis) {
+export function secondsToMinutesAndSeconds(seconds) {
 
-    const minutes = Math.floor(millis / MILISECONDS_IN_A_MINUTE)
-    let seconds = ((millis % MILISECONDS_IN_A_MINUTE) / MILISECONDS_IN_A_SECOND).toFixed(0)
+    const minutes = Math.floor(seconds / SECONDS_IN_A_MINUTE)
+    const trimmedSeconds = (seconds % SECONDS_IN_A_MINUTE).toFixed(0)
 
-    if (seconds < 10) {
-        seconds = ['0', seconds].join('')
+    if (trimmedSeconds < 10) {
+        const displaySeconds = ['0', seconds].join('')
+
+        return [minutes, displaySeconds].join(':')
     }
-
-    return [minutes, seconds].join(':')
-}
-
-module.exports = {
-    MILISECONDS_IN_A_SECOND,
-    millisToMinutesAndSeconds
+    return [minutes, trimmedSeconds].join(':')
 }

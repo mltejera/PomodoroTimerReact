@@ -5,9 +5,8 @@ import Button from '@material-ui/core/Button'
 import AddAlarmIcon from '@material-ui/icons/AddAlarm'
 
 import SingleTimer from './SingleTimer'
-import timerHelper from '../helpers/timerHelper'
 
-import Styles from './TimerList'
+import Styles from './TimerList.css'
 
 const LONG_TIME = 5
 const SHORT_TIME = 2
@@ -31,8 +30,8 @@ export default class TimerList extends React.Component {
     addTimer = (seconds = LONG_TIME) => {
 
         const newTimer = {
-            runningTime: seconds * timerHelper.MILISECONDS_IN_A_SECOND,
-            originalTime: seconds * timerHelper.MILISECONDS_IN_A_SECOND,
+            runningTime: seconds,
+            originalTime: seconds,
             isRunning: false,
             isComplete: false,
         }
@@ -56,27 +55,13 @@ export default class TimerList extends React.Component {
         this.addTimer(LONG_TIME)
     }
 
-    renderTimerList = (timerList) => {
-
-        if (!timerList) {
-            // empty timer list, eject! eject!
-            return
-        }
-
-        return timerList.map((timer, index) =>
-            <SingleTimer
-                key={index}
-                isRunning={timer.isRunning}
-                runningTime={timer.runningTime} />
-        )
-    }
-
     render() {
+
         return (
-            <div>
+            <div className={Styles.container}>
                 <h1>Pomodoro Timer</h1>
 
-                {this.renderTimerList(this.state.timerList)}
+                {renderTimerList(this.state.timerList)}
 
                 <Button
                     onClick={this.onAddLongTimerClick}
@@ -96,4 +81,19 @@ export default class TimerList extends React.Component {
             </div>
         )
     }
+}
+
+function renderTimerList(timerList) {
+
+    if (!timerList) {
+        // empty timer list, eject! eject!
+        return
+    }
+
+    return timerList.map((timer, index) =>
+        <SingleTimer
+            key={index}
+            isRunning={timer.isRunning}
+            runningTime={timer.runningTime} />
+    )
 }
