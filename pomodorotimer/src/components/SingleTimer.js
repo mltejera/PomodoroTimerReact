@@ -71,9 +71,19 @@ export default class SingleTimer extends React.Component {
         })
     }
 
-    handleAddClick = () => changeRunningTime(TIMER_STEP, this.state.runningTime)
+    // If you define an instance method with an arrow function:
+    //
+    // handleAddClick = () => { ... }
+    //
+    // Then Babel will do the "right" thing w.r.t. `this`....i.e. `this`
+    // will be available inside the function.
+    //
+    // HOWEVER, when you invoke another function as we're doing here, you
+    // don't get the automagical `this` binding, so you have to do it
+    // manually.
+    handleAddClick = changeRunningTime.call(this, TIMER_STEP)
 
-    handleSubtractClick = () => changeRunningTime(-TIMER_STEP, this.state.runningTime)
+    handleSubtractClick = changeRunningTime.call(this, -TIMER_STEP)
 
     render() {
         return (
@@ -133,18 +143,14 @@ function pauseStartIcon(isRunning) {
     return <StartIcon />
 }
 
-function changeRunningTime(changeAmount, currentRunningTime) {
-
-    if (changeAmount < 0 && currentRunningTime <= 0) {
-        return
-    }
-
-    console.log('ping')
-
+function changeRunningTime(changeAmount) {
     return () => {
-        console.log(this.state)
+        if ( this.state.runningTime <= 0 ) {
+            return
+        }
+
         this.setState({
-            runningTime: currentRunningTime + changeAmount
+            runningTime: this.state.runningTime + changeAmount
         })
     }
 }
