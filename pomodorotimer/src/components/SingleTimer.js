@@ -52,11 +52,13 @@ export default class SingleTimer extends React.Component {
     onStartStopTimerClick = (e) => {
         e.stopPropagation()
 
-        if (this.state.isRunning) {
-            this.setState({ isRunning: false })
-        } else {
-            this.setState({ isRunning: true })
+        const wasRunning = this.state.isRunning
 
+        this.setState({
+            isRunning: !wasRunning
+        })
+
+        if (!wasRunning) {
             window.setTimeout(this.onTimerTick, MILLISECONDS_IN_A_SECOND)
         }
     }
