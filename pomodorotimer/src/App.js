@@ -1,16 +1,9 @@
-import React, { Component } from 'react';
-import './App.css';
+import React from 'react'
 
-import Startup from './components/Startup.js';
+import TimerList from './components/TimerList'
 
-class App extends Component {
-  render() {
+export default function App() {
     return (
-      <div>
-        <Startup />
-      </div>
-    );
-  }
+        <TimerList />
+    )
 }
-
-export default App;

@@ -1,43 +1,99 @@
+import React from 'react'
 
-import React from 'react';
-import SingleTimer from './SingleTimer';
+import Button from '@material-ui/core/Button'
+import AddAlarmIcon from '@material-ui/icons/AddAlarm'
 
+import SingleTimer from './SingleTimer'
 
-class TimerList extends React.Component {
-    constructor(props) {
-        super(props)
+import Styles from './TimerList.css'
 
+const LONG_TIME = 5
+const SHORT_TIME = 2
+
+export default class TimerList extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            timerList: []
+        }
+    }
+
+    componentDidMount() {
+        this.addTimer(LONG_TIME)
+        this.addTimer(SHORT_TIME)
+
+        this.addTimer(LONG_TIME)
+        this.addTimer(SHORT_TIME)
+    }
+
+    addTimer(seconds) {
+
+        const newTimer = {
+            runningTime: seconds,
+            originalTime: seconds,
+            isRunning: false,
+            isComplete: false,
+        }
+
+        this.setState((prevState => {
+            return {
+                timerList: prevState.timerList.concat(newTimer)
+            }
+        }))
+    }
+
+    onAddShortTimerClick = (e) => {
+        e.stopPropagation()
+
+        this.addTimer(SHORT_TIME)
+    }
+
+    onAddLongTimerClick = (e) => {
+        e.stopPropagation()
+
+        this.addTimer(LONG_TIME)
     }
 
     render() {
 
-        let singleTimerArray = [];
-
-        if (this.props.timerList) {
-            singleTimerArray = this.props.timerList.map((timer, index) => {
-                return <SingleTimer
-                    key={index}
-                    isRunning={timer.isRunning}
-                    runningTime={timer.runningTime} />
-            });
-        }
-
-
-        console.log(singleTimerArray);
-
         return (
-            <div className="App">
-                {singleTimerArray}
-            </div>
-        );
-    }
+            <div className={Styles.container}>
+                <h1>Pomodoro Timer</h1>
 
+                {renderTimerList(this.state.timerList)}
+
+                <Button
+                    onClick={this.onAddLongTimerClick}
+                    variant="extendedFab"
+                    className={Styles.addTimer}
+                >
+                    <AddAlarmIcon />
+                    Long timer
+                </Button>
+
+                <Button
+                    onClick={this.onAddShortTimerClick}
+                    variant="extendedFab"
+                    className={Styles.addTimer}
+                >
+                    <AddAlarmIcon />
+                    Short timer
+                </Button>
+            </div>
+        )
+    }
 }
 
-TimerList.propTypes = {
-};
+function renderTimerList(timerList) {
 
-TimerList.defaultProps = {
-};
+    if (!timerList) {
+        return
+    }
 
-export default TimerList;
+    return timerList.map((timer, index) =>
+        <SingleTimer
+            key={index}
+            isRunning={timer.isRunning}
+            runningTime={timer.runningTime} />
+    )
+}
