@@ -1,4 +1,3 @@
-
 import React from 'react'
 
 import Button from '@material-ui/core/Button'
@@ -27,7 +26,7 @@ export default class TimerList extends React.Component {
         this.addTimer(SHORT_TIME)
     }
 
-    addTimer = (seconds = LONG_TIME) => {
+    addTimer(seconds) {
 
         const newTimer = {
             runningTime: seconds,
@@ -66,7 +65,8 @@ export default class TimerList extends React.Component {
                 <Button
                     onClick={this.onAddLongTimerClick}
                     variant="extendedFab"
-                    className={Styles.addTimer}>
+                    className={Styles.addTimer}
+                >
                     <AddAlarmIcon />
                     Long timer
                 </Button>
@@ -74,7 +74,8 @@ export default class TimerList extends React.Component {
                 <Button
                     onClick={this.onAddShortTimerClick}
                     variant="extendedFab"
-                    className={Styles.addTimer}>
+                    className={Styles.addTimer}
+                >
                     <AddAlarmIcon />
                     Short timer
                 </Button>
@@ -86,7 +87,6 @@ export default class TimerList extends React.Component {
 function renderTimerList(timerList) {
 
     if (!timerList) {
-        // empty timer list, eject! eject!
         return
     }
 

@@ -6,15 +6,16 @@ import StartIcon from '@material-ui/icons/PlayArrow'
 import PauseIcon from '@material-ui/icons/Pause'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import DoneIcon from '@material-ui/icons/Done'
+import AddIcon from '@material-ui/icons/Add'
+import RemoveIcon from '@material-ui/icons/Remove'
 
-import ChangeTimeButton from './ChangeTimeButton'
+import IconButton from './IconButton'
 
-import { MILISECONDS_IN_A_SECOND, secondsToMinutesAndSeconds } from '../helpers/timerHelper'
+import { MILLISECONDS_IN_A_SECOND, secondsToMinutesAndSeconds } from '../helpers/timerHelper'
 
 import Styles from './SingleTimer'
 
-const ONE = 1
-const NEGATIVE_ONE = -1
+const TIMER_STEP = 1
 
 export default class SingleTimer extends React.Component {
     state = {
@@ -30,17 +31,14 @@ export default class SingleTimer extends React.Component {
             return
         }
 
-        if (this.state.runningTime > 0) {
-            const newTime = this.state.runningTime - ONE
-
-            this.setState({ runningTime: newTime })
-
-            // set up another timerTick
-            window.setTimeout(this.onTimerTick, MILISECONDS_IN_A_SECOND)
-
-        } else {
+        if (this.state.runningTime <= 0) {
             this.completeTimer()
+            return
         }
+
+        const runningTime = this.state.runningTime - TIMER_STEP
+        this.setState({ runningTime })
+        window.setTimeout(this.onTimerTick, MILLISECONDS_IN_A_SECOND)
     }
 
     completeTimer = () => {
@@ -59,12 +57,11 @@ export default class SingleTimer extends React.Component {
         } else {
             this.setState({ isRunning: true })
 
-            // start the timer
-            window.setTimeout(this.onTimerTick, MILISECONDS_IN_A_SECOND)
+            window.setTimeout(this.onTimerTick, MILLISECONDS_IN_A_SECOND)
         }
     }
 
-    resetTimerOnClick = (e) => {
+    onResetTimerClick = (e) => {
         e.stopPropagation()
 
         this.setState({
@@ -74,17 +71,9 @@ export default class SingleTimer extends React.Component {
         })
     }
 
-    onAddSecondClick = (changeAmountInSeconds) => {
+    handleAddClick = () => changeRunningTime(TIMER_STEP, this.state.runningTime)
 
-        // don't let it go negative
-        if (changeAmountInSeconds < 0 && this.state.runningTime <= 0) {
-            return
-        }
-
-        const newRunningTime = this.state.runningTime + changeAmountInSeconds
-
-        this.setState({ runningTime: newRunningTime })
-    }
+    handleSubtractClick = () => changeRunningTime(-TIMER_STEP, this.state.runningTime)
 
     render() {
         return (
@@ -99,28 +88,30 @@ export default class SingleTimer extends React.Component {
                     variant="fab"
                     color="primary"
                     className={Styles.startStopButton}
-                    aria-label="StartStop">
+                    aria-label="Start Stop"
+                >
                     {pauseStartIcon(this.state.isRunning)}
                 </Button>
 
                 <Button
-                    onClick={this.resetTimerOnClick}
+                    onClick={this.onResetTimerClick}
                     variant="fab"
                     color="secondary"
                     className={Styles.startStopButton}
-                    aria-label="Reset">
+                    aria-label="Reset"
+                >
                     <RefreshIcon />
                 </Button>
 
-                <ChangeTimeButton
-                    onChangeTimeClick={this.onAddSecondClick}
-                    changeAmount={ONE}
-                    ariaLabel="Add Second" />
+                <IconButton
+                    onClick={this.handleAddClick}
+                    ariaLabel="Add Second"
+                    icon={<AddIcon />} />
 
-                <ChangeTimeButton
-                    onChangeTimeClick={this.onAddSecondClick}
-                    changeAmount={NEGATIVE_ONE}
-                    ariaLabel="Remove Second" />
+                <IconButton
+                    onClick={this.handleSubtractClick}
+                    ariaLabel="Remove Second"
+                    icon={<RemoveIcon />} />
             </div >
         )
     }
@@ -132,8 +123,6 @@ function statusIcon(isRunning, isComplete) {
     } else if (isComplete) {
         return <DoneIcon className={Styles.doneIcon} />
     }
-
-    // I hate that we don't have to have a return statement here in javascript.
 }
 
 function pauseStartIcon(isRunning) {
@@ -142,4 +131,20 @@ function pauseStartIcon(isRunning) {
     }
 
     return <StartIcon />
+}
+
+function changeRunningTime(changeAmount, currentRunningTime) {
+
+    if (changeAmount < 0 && currentRunningTime <= 0) {
+        return
+    }
+
+    console.log('ping')
+
+    return () => {
+        console.log(this.state)
+        this.setState({
+            runningTime: currentRunningTime + changeAmount
+        })
+    }
 }

@@ -5,5 +5,5 @@ import TimerList from './components/TimerList'
 export default function App() {
     return (
         <TimerList />
-    );
+    )
 }

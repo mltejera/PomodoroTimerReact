@@ -1,15 +1,12 @@
 export const SECONDS_IN_A_MINUTE = 60
-export const MILISECONDS_IN_A_SECOND = 1000
+export const MILLISECONDS_IN_A_SECOND = 1000
 
-export function secondsToMinutesAndSeconds(seconds) {
+export function secondsToMinutesAndSeconds(totalSeconds) {
 
-    const minutes = Math.floor(seconds / SECONDS_IN_A_MINUTE)
-    const trimmedSeconds = (seconds % SECONDS_IN_A_MINUTE).toFixed(0)
+    const minutes = Math.floor(totalSeconds / SECONDS_IN_A_MINUTE)
+    const seconds = (totalSeconds % SECONDS_IN_A_MINUTE)
 
-    if (trimmedSeconds < 10) {
-        const displaySeconds = ['0', seconds].join('')
+    const paddedSeconds = seconds.toString().padStart(2, 0)
 
-        return [minutes, displaySeconds].join(':')
-    }
-    return [minutes, trimmedSeconds].join(':')
+    return [minutes, paddedSeconds].join(':')
 }
