@@ -71,9 +71,9 @@ export default class SingleTimer extends React.Component {
         })
     }
 
-    handleAddClick = () => changeRunningTime(TIMER_STEP, this.state.runningTime)
+    handleAddClick = changeRunningTime.call(this, TIMER_STEP)
 
-    handleSubtractClick = () => changeRunningTime(-TIMER_STEP, this.state.runningTime)
+    handleSubtractClick = changeRunningTime.call(this, -TIMER_STEP)
 
     render() {
         return (
@@ -133,18 +133,13 @@ function pauseStartIcon(isRunning) {
     return <StartIcon />
 }
 
-function changeRunningTime(changeAmount, currentRunningTime) {
-
-    if (changeAmount < 0 && currentRunningTime <= 0) {
-        return
-    }
-
-    console.log('ping')
-
+function changeRunningTime(changeAmount) {
     return () => {
-        console.log(this.state)
-        this.setState({
-            runningTime: currentRunningTime + changeAmount
-        })
+        if ((this.state.runningTime + changeAmount) >= 0) {
+
+            this.setState({
+                runningTime: this.state.runningTime + changeAmount
+            })
+        }
     }
 }
