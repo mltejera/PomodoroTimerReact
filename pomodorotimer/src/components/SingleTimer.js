@@ -13,8 +13,6 @@ import IconButton from './IconButton'
 
 import { MILLISECONDS_IN_A_SECOND, secondsToMinutesAndSeconds } from '../helpers/timerHelper'
 
-import Styles from './SingleTimer'
-
 const TIMER_STEP = 1
 
 export default class SingleTimer extends React.Component {
@@ -80,7 +78,7 @@ export default class SingleTimer extends React.Component {
     render() {
         return (
             <div>
-                {statusIcon(this.state.isRunning, this.state.isComplete)}
+                {statusIcon(this.state)}
 
                 <h1>{secondsToMinutesAndSeconds(this.state.runningTime)}</h1>
 
@@ -89,17 +87,15 @@ export default class SingleTimer extends React.Component {
                     disabled={this.state.isComplete}
                     variant="fab"
                     color="primary"
-                    className={Styles.startStopButton}
                     aria-label="Start Stop"
                 >
-                    {pauseStartIcon(this.state.isRunning)}
+                    {pauseStartIcon(this.state)}
                 </Button>
 
                 <Button
                     onClick={this.onResetTimerClick}
                     variant="fab"
                     color="secondary"
-                    className={Styles.startStopButton}
                     aria-label="Reset"
                 >
                     <RefreshIcon />
@@ -119,15 +115,19 @@ export default class SingleTimer extends React.Component {
     }
 }
 
-function statusIcon(isRunning, isComplete) {
+function statusIcon({ isRunning, isComplete }) {
+
     if (isRunning) {
-        return <CircularProgress className={Styles.progressSpinner} />
-    } else if (isComplete) {
-        return <DoneIcon className={Styles.doneIcon} />
+        return <CircularProgress />
+    }
+
+    if (isComplete) {
+        return <DoneIcon />
     }
 }
 
-function pauseStartIcon(isRunning) {
+function pauseStartIcon({ isRunning }) {
+
     if (isRunning) {
         return <PauseIcon />
     }

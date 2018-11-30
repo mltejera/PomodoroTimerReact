@@ -5,8 +5,6 @@ import AddAlarmIcon from '@material-ui/icons/AddAlarm'
 
 import SingleTimer from './SingleTimer'
 
-import Styles from './TimerList.css'
-
 const LONG_TIME = 5
 const SHORT_TIME = 2
 
@@ -57,7 +55,7 @@ export default class TimerList extends React.Component {
     render() {
 
         return (
-            <div className={Styles.container}>
+            <div>
                 <h1>Pomodoro Timer</h1>
 
                 {renderTimerList(this.state.timerList)}
@@ -65,7 +63,6 @@ export default class TimerList extends React.Component {
                 <Button
                     onClick={this.onAddLongTimerClick}
                     variant="extendedFab"
-                    className={Styles.addTimer}
                 >
                     <AddAlarmIcon />
                     Long timer
@@ -74,7 +71,6 @@ export default class TimerList extends React.Component {
                 <Button
                     onClick={this.onAddShortTimerClick}
                     variant="extendedFab"
-                    className={Styles.addTimer}
                 >
                     <AddAlarmIcon />
                     Short timer
