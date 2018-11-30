@@ -115,16 +115,20 @@ export default class SingleTimer extends React.Component {
     }
 }
 
-function statusIcon(state) {
-    if (state.isRunning) {
+function statusIcon({ isRunning, isComplete }) {
+
+    if (isRunning) {
         return <CircularProgress />
-    } else if (state.isComplete) {
+    }
+
+    if (isComplete) {
         return <DoneIcon />
     }
 }
 
-function pauseStartIcon(state) {
-    if (state.isRunning) {
+function pauseStartIcon({ isRunning }) {
+
+    if (isRunning) {
         return <PauseIcon />
     }
 
