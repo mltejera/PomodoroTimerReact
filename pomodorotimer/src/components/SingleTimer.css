@@ -1,0 +1,39 @@
+.singleTimerContainer {
+    display: grid;
+    justify-content: start;
+    align-items: center;
+    grid-gap: 12px;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto;
+    margin: 12px 0 12px 0;
+}
+
+.statusIcon {
+    grid-column-start: 1;
+    grid-row-start: 2;
+}
+
+.timeRemaining {
+    grid-column-start: 1;
+    grid-row-start: 1;
+}
+
+.startStopButton {
+    grid-column-start: 2;
+    grid-row-start: 1;
+}
+
+.resetButton {
+    grid-column-start: 3;
+    grid-row-start: 1;
+}
+
+.addSecondButton {
+    grid-column-start: 2;
+    grid-row-start: 2;
+}
+
+.removeSecondButton {
+    grid-column-start: 3;
+    grid-row-start: 2;
+}

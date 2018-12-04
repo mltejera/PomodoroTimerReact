@@ -8,10 +8,13 @@ import RefreshIcon from '@material-ui/icons/Refresh'
 import DoneIcon from '@material-ui/icons/Done'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
+import AlarmIcon from '@material-ui/icons/Alarm'
 
 import IconButton from './IconButton'
 
 import { MILLISECONDS_IN_A_SECOND, secondsToMinutesAndSeconds } from '../helpers/timerHelper'
+
+import './SingleTimer.css'
 
 const TIMER_STEP = 1
 
@@ -77,10 +80,10 @@ export default class SingleTimer extends React.Component {
 
     render() {
         return (
-            <div>
-                {statusIcon(this.state)}
+            <div className="singleTimerContainer">
+                <div className="statusIcon">{statusIcon(this.state)}</div>
 
-                <h1>{secondsToMinutesAndSeconds(this.state.runningTime)}</h1>
+                <h1 className="timeRemaining">{secondsToMinutesAndSeconds(this.state.runningTime)}</h1>
 
                 <Button
                     onClick={this.onStartStopTimerClick}
@@ -88,6 +91,7 @@ export default class SingleTimer extends React.Component {
                     variant="fab"
                     color="primary"
                     aria-label="Start Stop"
+                    className="startStopButton"
                 >
                     {pauseStartIcon(this.state)}
                 </Button>
@@ -97,6 +101,7 @@ export default class SingleTimer extends React.Component {
                     variant="fab"
                     color="secondary"
                     aria-label="Reset"
+                    className="resetButton"
                 >
                     <RefreshIcon />
                 </Button>
@@ -104,12 +109,14 @@ export default class SingleTimer extends React.Component {
                 <IconButton
                     onClick={this.handleAddClick}
                     ariaLabel="Add Second"
-                    icon={<AddIcon />} />
+                    icon={<AddIcon />}
+                    className="addSecondButton" />
 
                 <IconButton
                     onClick={this.handleSubtractClick}
                     ariaLabel="Remove Second"
-                    icon={<RemoveIcon />} />
+                    icon={<RemoveIcon />}
+                    className="removeSecondButton" />
             </div >
         )
     }
@@ -124,6 +131,8 @@ function statusIcon({ isRunning, isComplete }) {
     if (isComplete) {
         return <DoneIcon />
     }
+
+    return <AlarmIcon />
 }
 
 function pauseStartIcon({ isRunning }) {
