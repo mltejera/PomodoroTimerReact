@@ -80,10 +80,10 @@ export default class SingleTimer extends React.Component {
 
     render() {
         return (
-            <div className="singleTimerContainerStyle">
-                <div className="statusIconStyle">{statusIcon(this.state)}</div>
+            <div className="singleTimerContainer">
+                <div className="statusIcon">{statusIcon(this.state)}</div>
 
-                <h1 className="timeRemainingStyle">{secondsToMinutesAndSeconds(this.state.runningTime)}</h1>
+                <h1 className="timeRemaining">{secondsToMinutesAndSeconds(this.state.runningTime)}</h1>
 
                 <Button
                     onClick={this.onStartStopTimerClick}
@@ -91,7 +91,7 @@ export default class SingleTimer extends React.Component {
                     variant="fab"
                     color="primary"
                     aria-label="Start Stop"
-                    className="startStopButtonStyle"
+                    className="startStopButton"
                 >
                     {pauseStartIcon(this.state)}
                 </Button>
@@ -101,7 +101,7 @@ export default class SingleTimer extends React.Component {
                     variant="fab"
                     color="secondary"
                     aria-label="Reset"
-                    className="resetButtonStyle"
+                    className="resetButton"
                 >
                     <RefreshIcon />
                 </Button>
@@ -110,13 +110,13 @@ export default class SingleTimer extends React.Component {
                     onClick={this.handleAddClick}
                     ariaLabel="Add Second"
                     icon={<AddIcon />}
-                    className="addSecondButtonStyle" />
+                    className="addSecondButton" />
 
                 <IconButton
                     onClick={this.handleSubtractClick}
                     ariaLabel="Remove Second"
                     icon={<RemoveIcon />}
-                    className="removeSecondButtonStyle" />
+                    className="removeSecondButton" />
             </div >
         )
     }

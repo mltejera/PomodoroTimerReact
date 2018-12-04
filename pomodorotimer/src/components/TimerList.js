@@ -58,14 +58,14 @@ export default class TimerList extends React.Component {
 
         return (
             <div className="timerListContainer">
-                <h1 className="headerTextStyle">Pomodoro Timer</h1>
+                <h1 className="headerText">Pomodoro Timer</h1>
 
-                <div className="timerListStyle">{renderTimerList(this.state.timerList)}</div>
+                <div className="timerList">{renderTimerList(this.state.timerList)}</div>
 
                 <Button
                     onClick={this.onAddLongTimerClick}
                     variant="extendedFab"
-                    className="addLongTimerButtonStyle"
+                    className="addLongTimerButton"
                 >
                     <AddAlarmIcon />
                     Long timer
@@ -74,7 +74,7 @@ export default class TimerList extends React.Component {
                 <Button
                     onClick={this.onAddShortTimerClick}
                     variant="extendedFab"
-                    className="addShortTimerButtonStyle"
+                    className="addShortTimerButton"
                 >
                     <AddAlarmIcon />
                     Short timer

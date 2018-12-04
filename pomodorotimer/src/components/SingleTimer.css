@@ -1,4 +1,4 @@
-.singleTimerContainerStyle {
+.singleTimerContainer {
     display: grid;
     justify-content: start;
     align-items: center;
@@ -8,33 +8,32 @@
     margin: 12px 0 12px 0;
 }
 
-.statusIconStyle {
+.statusIcon {
     grid-column-start: 1;
     grid-row-start: 2;
 }
 
-.timeRemainingStyle {
+.timeRemaining {
     grid-column-start: 1;
     grid-row-start: 1;
-    
 }
 
-.startStopButtonStyle {
+.startStopButton {
     grid-column-start: 2;
     grid-row-start: 1;
 }
 
-.resetButtonStyle{
-    grid-column-start:3;
-    grid-row-start:1;
+.resetButton {
+    grid-column-start: 3;
+    grid-row-start: 1;
 }
 
-.addSecondButtonStyle{
-    grid-column-start:2;
-    grid-row-start:2;
+.addSecondButton {
+    grid-column-start: 2;
+    grid-row-start: 2;
 }
 
-.removeSecondButtonStyle{
-    grid-column-start:3;
-    grid-row-start:2;
+.removeSecondButton {
+    grid-column-start: 3;
+    grid-row-start: 2;
 }
