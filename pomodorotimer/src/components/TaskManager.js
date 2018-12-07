@@ -25,7 +25,6 @@ export default class TaskManager extends React.Component {
         this.addTask("Eat")
     }
 
-
     addTask(newTaskName) {
         if (!newTaskName) {
             return
@@ -33,7 +32,8 @@ export default class TaskManager extends React.Component {
 
         this.setState((prevState => {
             return {
-                taskList: prevState.taskList.concat(newTaskName)
+                taskList: prevState.taskList.concat(newTaskName),
+                newTaskName: ''
             }
         }))
     }
@@ -48,19 +48,15 @@ export default class TaskManager extends React.Component {
         e.stopPropagation()
 
         this.addTask(this.state.newTaskName)
-
-        this.setState({ newTaskName: '' })
     }
 
     render() {
         return (
             <div className="taskManagerPanel">
-
                 <h2>Tasks</h2>
                 <div className="taskList">
                     {renderTaskList(this.state.taskList)}
                 </div>
-
                 <div className="additorPanel">
                     <TextField
                         className="newTaskName"
@@ -88,9 +84,9 @@ function renderTaskList(taskList) {
         return
     }
 
-    return taskList.map((task, index) =>
+    return taskList.map((task, index) => (
         <TaskItem
             key={index}
             taskName={task} />
-    )
+    ))
 }
