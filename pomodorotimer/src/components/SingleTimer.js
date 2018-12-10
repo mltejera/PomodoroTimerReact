@@ -27,7 +27,6 @@ export default class SingleTimer extends React.Component {
     }
 
     onTimerTick = () => {
-
         if (!this.state.isRunning) {
             return
         }
@@ -81,10 +80,12 @@ export default class SingleTimer extends React.Component {
     render() {
         return (
             <div className="singleTimerContainer">
-                <div className="statusIcon">{statusIcon(this.state)}</div>
-
-                <h1 className="timeRemaining">{secondsToMinutesAndSeconds(this.state.runningTime)}</h1>
-
+                <div className="statusIcon">
+                    {statusIcon(this.state)}
+                </div>
+                <h1 className="timeRemaining">
+                    {secondsToMinutesAndSeconds(this.state.runningTime)}
+                </h1>
                 <Button
                     onClick={this.onStartStopTimerClick}
                     disabled={this.state.isComplete}
@@ -95,7 +96,6 @@ export default class SingleTimer extends React.Component {
                 >
                     {pauseStartIcon(this.state)}
                 </Button>
-
                 <Button
                     onClick={this.onResetTimerClick}
                     variant="fab"
@@ -105,7 +105,6 @@ export default class SingleTimer extends React.Component {
                 >
                     <RefreshIcon />
                 </Button>
-
                 <IconButton
                     onClick={this.handleAddClick}
                     ariaLabel="Add Second"
@@ -123,7 +122,6 @@ export default class SingleTimer extends React.Component {
 }
 
 function statusIcon({ isRunning, isComplete }) {
-
     if (isRunning) {
         return <CircularProgress />
     }
@@ -136,7 +134,6 @@ function statusIcon({ isRunning, isComplete }) {
 }
 
 function pauseStartIcon({ isRunning }) {
-
     if (isRunning) {
         return <PauseIcon />
     }

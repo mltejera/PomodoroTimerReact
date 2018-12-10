@@ -1,0 +1,21 @@
+.mainAppLayout {
+    display : grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto;
+}
+
+.mainAppTitle {
+    text-align: center;
+    grid-column: 1 / span 2;
+    
+}
+
+.mainAppTimerList {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.mainAppTaskList {
+    grid-column: 2;
+    grid-row: 2;
+}
