@@ -30,11 +30,9 @@ export default class TaskManager extends React.Component {
             return
         }
 
-        this.setState((prevState => {
-            return {
-                taskList: prevState.taskList.concat(newTaskName),
-                newTaskName: ''
-            }
+        this.setState((state) => ({
+            taskList: state.taskList.concat(newTaskName),
+            newTaskName: ''
         }))
     }
 

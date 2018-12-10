@@ -5,7 +5,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 
 export default function TaskItem(props) {
     return (
-        <div>
+        <div className="taskItem">
             <TextField value={props.taskName} />
             <Checkbox />
         </div>
